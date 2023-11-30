@@ -1,14 +1,20 @@
 package Prefi2022;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Grupo extends ElementoSitio {
           private ArrayList<ElementoSitio> elementos;
           private int elementoParaCategoria;
 
           public Grupo(String titulo, String editor, int elementoParaCategoria) {
-                    super(titulo, editor);
+                    this(titulo, editor);
                     this.elementoParaCategoria = elementoParaCategoria;
+          }
+
+          public Grupo(String titulo, String editor) {
+                    super(titulo, editor);
+                    this.elementoParaCategoria = 0;
           }
 
           @Override
@@ -25,10 +31,20 @@ public class Grupo extends ElementoSitio {
                     return res;
           }
 
+          public ArrayList<String> getPClavesOrdenadas() {
+                    ArrayList<String> res = this.getPClaves();
+                    Collections.sort(res);
+                    return res;
+          }
+
           @Override
           public String getCategoria() {
                     if (!this.elementos.isEmpty()) {
-                              return this.elementos.get(this.elementoParaCategoria).getCategoria();
+                              if (this.elementos.get(this.elementoParaCategoria) != null) {
+                                        return this.elementos.get(this.elementoParaCategoria).getCategoria();
+                              } else {
+                                        return null;
+                              }
                     }
                     return null;
           }
@@ -53,6 +69,14 @@ public class Grupo extends ElementoSitio {
                               }
                               return contador;
                     }
+          }
+
+          public String calcularPClave(Calculador c) {
+                    String res = null;
+                    if (c.cumple(this) != null) {
+                              res = c.cumple(this);
+                    }
+                    return res;
           }
 
           public int getElementoParaCategoria() {
